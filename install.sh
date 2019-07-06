@@ -13,7 +13,6 @@ fi
 
 sudo apt-get install -y \
 	mysql-server \
-	nginx \
 	php5-curl \
 	php5-fpm \
 	php5-gd \
@@ -49,20 +48,20 @@ fi
 
 cd - >/dev/null
 
-sites="/etc/nginx/sites-enabled"
+sites="/etc/apache2/sites-enabled"
 
 sudo cp "$pwd/conf/wordpress" $sites
 sudo replace "/var/www" $dir -- "$sites/wordpress"
 
 if [ -e "$sites/default" ]; then
-	read -r -n 1 -p "Delete 'default' nginx site? (y/n)"
+	read -r -n 1 -p "Delete 'default' apache site? (y/n)"
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
 		sudo rm "$sites/default"
 	fi
 	echo ""
 fi
 
-sudo service nginx restart
+sudo service apache2 restart
 
 echo ""
 echo "Install complete!"
